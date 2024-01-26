@@ -1,0 +1,20 @@
+jupyterlab==4.0.0
+# numpy==1.21.2
+# h5py==3.10.0
+zarr==2.16.1
+dask==2023.10.0
+distributed==2023.10.0
+bokeh==2.4.3
+polars==0.19.17 
+
+spacy==3.7.2
+
+accelerate==0.26.1
+transformers==4.37.1
+nltk==3.8.1
+rouge==1.0.1
+
+librosa==0.10.1
+soundfile==0.12.1
+pyannote.audio==3.0.1
+opensmile==2.4.2
