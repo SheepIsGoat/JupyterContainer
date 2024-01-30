@@ -4,23 +4,15 @@
 Run your Jupyter notebook experiments in a Docker environment to ensure consistent experimentation across teams.
 
 ## Features
-- Mimic production environments accurately by customizing your Dockerfile with your project's public and private packages.
-- Utilize your own hardware for faster processing compared to cloud services like Google Colab, while maintaining data privacy.
-- Isolate code execution from your host machine, enhancing the safety of your experiments.
-
-## Usage
-Execute the following command:
-
-## Features
 - Mimic production environments with precision by modifying your Dockerfile with your project's public and private packages.
 - Use your own hardware to massively speed up processing over cloud offerings like google collab, and keep your data private.
 - Isolate code execution from host machine for safer experimentation.
 
 ## Usage
 Execute the following command
-'''
+```
 ./run.sh [build/up/down]
-'''
+```
 
 ## Setup
 - Default GPU configuration is GPU=nvidia, but this can be changed at the top of run.sh
