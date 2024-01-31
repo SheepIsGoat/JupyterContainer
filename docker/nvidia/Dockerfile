@@ -1,7 +1,9 @@
 ################
 # STAGE 1 OF 3 #
 ################ 
-FROM nvidia/cuda:11.8.0-base-ubuntu22.04 as base
+ARG CUDA_VERSION
+ARG CUDA_TOOLS
+FROM nvidia/cuda:$CUDA_VERSION-$CUDA_TOOLS-ubuntu22.04 as base
 
 ARG GPU
 

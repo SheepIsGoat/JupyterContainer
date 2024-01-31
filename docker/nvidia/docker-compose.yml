@@ -10,6 +10,8 @@ services:
       dockerfile: docker/${GPU}/Dockerfile
       args:
         GPU: ${GPU}
+        CUDA_VERSION: 12.2.0
+        CUDA_TOOLS: base  # base or devel (if you need nvcc, etc.)
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all

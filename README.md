@@ -17,6 +17,9 @@ Execute the following command
 ## Setup
 - Default GPU configuration is GPU=nvidia, but this can be changed at the top of run.sh
 - **Note**: currently only set up for nvidia, you'd have add other options yourself)
+- Set your CUDA version and image type in Dockerfile
+  - 'base' image type is best for most uses
+  - 'devel' image type is required for packages that need nvcc, like 'flash-attn'
 - Mount your local files in the /data, /models, and /notebooks directories to make them accessible from within your container.
 - **Packages:**
   - **Docker**: Essential for creating and managing containers.
