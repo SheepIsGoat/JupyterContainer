@@ -43,13 +43,16 @@ ENV MAMBA_EXE=/usr/local/bin/micromamba \
     CONDA_PREFIX=/home/user/micromamba \
     PATH=/home/user/micromamba/bin:$PATH
 
+# Set up the base Conda environment by installing base packages
+COPY docker/${GPU}/cuda-$CUDA_VERSION-conda-lock.yml /app/conda-lock.yml
+RUN echo $CUDA_HOME && export CUDA_HOME=/usr/local/cuda && micromamba create -qy -n base -f /app/conda-lock.yml \
+  && rm /app/conda-lock.yml \
+  && micromamba shell init --shell=bash --prefix="$MAMBA_ROOT_PREFIX" \
+  && micromamba clean -qya
 
-# Set up the base Conda environment by installing PyTorch and friends.
-COPY docker/${GPU}/conda-linux-64.lock /app/conda-linux-64.lock
-RUN micromamba create -qy -n base -f /app/conda-linux-64.lock \
- && rm /app/conda-linux-64.lock \
- && micromamba shell init --shell=bash --prefix="$MAMBA_ROOT_PREFIX" \
- && micromamba clean -qya
+
+ENV LD_LIBRARY_PATH=/home/user/micromamba/lib:$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/home/user/micromamba/pkgs/cuda-cudart-11.8.89-0/lib:$LD_LIBRARY_PATH
 
 # Fix for https://github.com/pytorch/pytorch/issues/97041
 RUN ln -s "$CONDA_PREFIX/lib/libnvrtc.so.11.8.89" "$CONDA_PREFIX/lib/libnvrtc.so"

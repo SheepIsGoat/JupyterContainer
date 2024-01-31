@@ -11,6 +11,10 @@ Run your Jupyter notebook experiments in a Docker environment to ensure consiste
 ## Usage
 Execute the following command
 ```
+# build a conda-lock file for package pinning
+./conda-locker.sh
+
+# build or run your container
 ./run.sh [build/up/down]
 ```
 

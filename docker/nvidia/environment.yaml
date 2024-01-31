@@ -1,0 +1,28 @@
+name: cuda-12.2.0
+channels:
+  - conda-forge
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.11.4
+  - pip=23.2.1
+  - mamba=1.4.9
+  - pytorch=2.0.1
+  - torchvision=0.15.2
+  - scipy=1.11.2
+  - tqdm=4.66.1
+  - jupyterlab=4.0.0
+  - zarr=2.16.1
+  - dask=2023.10.0
+  - distributed=2023.10.0
+  - bokeh=2.4.3
+  - polars=0.19.17
+  - spacy=3.7.2
+  - pip:
+      - accelerate==0.26.1
+      - transformers==4.37.1
+      - nltk==3.8.1
+      - rouge==1.0.1
+#      - flash-attn==2.5.0
+      - trl==0.7.10
+      - bitsandbytes==0.42.0
