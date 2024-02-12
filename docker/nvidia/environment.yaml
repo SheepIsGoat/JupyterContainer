@@ -4,14 +4,22 @@ channels:
   - pytorch
   - defaults
 dependencies:
+# base python stuff
   - python=3.11.4
   - pip=23.2.1
   - mamba=1.4.9
+
+# jupyterhub stuff
+  - jupyterhub=4.0.2
+  - jupyterlab=4.0.0
+  - nbclassic=1.0.0
+  - nbgitpuller=1.2.0
+
+# machine learning stuff
   - pytorch=2.0.1
   - torchvision=0.15.2
   - scipy=1.11.2
   - tqdm=4.66.1
-  - jupyterlab=4.0.0
   - zarr=2.16.1
   - dask=2023.10.0
   - distributed=2023.10.0
