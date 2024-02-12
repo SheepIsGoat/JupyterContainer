@@ -35,12 +35,18 @@ Execute the following command
 *Adapted from: https://z2jh.jupyter.org/en/stable/kubernetes/amazon/step-zero-aws.html*
 
 Make sure you have an s3 bucket to store your cluster configuration, or create a new one with:
-`aws s3api create-bucket --bucket $BUCKET_NAME --region us-west-1 --create-bucket-configuration LocationConstraint=us-west-1`
+```
+aws s3api create-bucket --bucket $BUCKET_NAME --region us-west-1 --create-bucket-configuration LocationConstraint=us-west-1
+```
+
 And enable versioning:
-`aws s3api put-bucket-versioning --bucket $BUCKET_NAME --versioning-configuration Status=Enabled`
+```
+aws s3api put-bucket-versioning --bucket $BUCKET_NAME --versioning-configuration Status=Enabled
+```
 
 
 Show existing key pairs: `aws ec2 describe-key-pairs`
+
 Or create a new key `./aws.sh key [KEY_NAME]`
 
 Find the subnet you'd like to launch the instance in, or create a new one. This is easier from the console.
@@ -78,6 +84,7 @@ export REGION=`curl -s http://169.254.169.254/latest/dynamic/instance-identity/d
 doas apk add --no-cache aws-cli
 ```
 
+Now start the cluster
 ```
 # again if running just this command
 export NAME=sheepisgoat.k8s.local
@@ -100,8 +107,11 @@ This will create a base cluster.yaml template we can use later. First, lets make
 - Note that the `--topology private` flag may be important, based on your organization's security requirements.
 - Further reading: https://github.com/kubernetes/kops/blob/HEAD/docs/networking.md
 
-`kops validate cluster --wait 10m`
-`kubectl get nodes --show-labels`
+Make sure everything is good
+```
+kops validate cluster --wait 10m
+kubectl get nodes --show-labels
+```
 
 For encryption in transit we can edit cilium networking.
 Create a password
@@ -121,6 +131,7 @@ Edit cluster config `kops edit cluster sheepisgoat.k8s.local`
 ```
 
 Apply the changes `kops update cluster $NAME --yes`
+
 Then update the cluster nodes `kops rolling-update cluster $NAME --yes`
 
 To set up encrypted dynamic storage `vi storageclass.yml`
@@ -143,12 +154,15 @@ kubectl apply -f storageclass.yml
 ```
 
 Check encryption status of nodes, it should say WireGuard
-`kubectl exec -n kube-system -ti $(kubectl get pods -n kube-system -l k8s-app=cilium -o jsonpath='{.items[0].metadata.name}') -- cilium status --verbose | grep Encryption`
+```
+kubectl exec -n kube-system -ti $(kubectl get pods -n kube-system -l k8s-app=cilium -o jsonpath='{.items[0].metadata.name}') -- cilium status --verbose | grep Encryption
+```
 
 Further reading: https://github.com/kubernetes/kops/blob/master/docs/getting_started/aws.md
 
 
 ## Setting Up Helm
+We'll use helm as our kubernetes package manager to install the JupyterHub application. First we install helm.
 ```
 curl -O https://get.helm.sh/helm-v3.14.0-linux-amd64.tar.gz
 tar -zxvf helm-v3.14.0-linux-amd64.tar.gz
@@ -158,6 +172,7 @@ rm helm-v3.14.0-linux-amd64.tar.gz
 rm -r linux-amd64
 ```
 
+This will do the actual JupyterHub install.
 ```
 export NAMESPACE=sheepisgoat
 
@@ -176,6 +191,7 @@ kubectl --namespace $NAMESPACE get service proxy-public
 
 
 Choose jupyterlab as the default UI
+
 Edit the config `vi config.yaml`. Make sure to replace values as needed, especially for your image.
 ```
 singleuser:
@@ -238,7 +254,9 @@ hub:
 ```
 
 Get the public ip address for your deployment, to access from your browser:
-`kubectl --namespace $NAMESPACE get service proxy-public`
+```
+kubectl --namespace $NAMESPACE get service proxy-public
+```
 
 
 ### Troubleshooting
