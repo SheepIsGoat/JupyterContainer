@@ -14,8 +14,8 @@ Execute the following command
 # build a conda-lock file for package pinning
 ./conda-locker.sh
 
-# build or run your container
-./run.sh [build/up/down]
+# build or run your container locally, and launch browser with Jupyter notebook
+./aws.sh [build/up/down]
 ```
 
 ## Setup
