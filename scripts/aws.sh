@@ -30,6 +30,8 @@ composeUp () {
     fi
 
     IMAGE_NAME="$IMG:$VERSION" GPU=$GPU docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" up &
+    DOCKER_COMPOSE_PID=$!
+    export DOCKER_COMPOSE_PID
 
     URL="http://127.0.0.1:8888/lab?token=$TOKEN"
     while ! curl -s "$URL" > /dev/null; do
@@ -38,6 +40,10 @@ composeUp () {
     done
 
     xdg-open "$URL"
+
+    trap 'composeDown; exit 130' SIGINT
+
+    wait $DOCKER_COMPOSE_PID
 }
 
 composeDown() {

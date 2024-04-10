@@ -19,9 +19,9 @@ services:
       - JUPYTER_TOKEN=passwd
       # - MODELS_DIR=${MODELS_DIR:-~/Documents/lollms}
     volumes:
-      - ../../data:/app/data
-      - ../../models:/app/models
-      - ../../notebooks:/app/notebooks
+      - ../../data:/home/jovyan/data
+      - ../../models:/home/jovyan/models
+      - ../../notebooks:/home/jovyan/notebooks
     tty: true
     stdin_open: true
     ports: 

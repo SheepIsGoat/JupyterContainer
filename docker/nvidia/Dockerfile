@@ -27,10 +27,6 @@ RUN apt-get update \
     tini \
  && rm -rf /var/lib/apt/lists/*
 
-
-RUN mkdir /app ##import
-WORKDIR /app ##import
-
 # Create a non-root user and switch to it.
 ENV HOME=/home/jovyan \
     NB_USER=jovyan \
@@ -111,6 +107,13 @@ FROM builder as APP
 USER jovyan
 WORKDIR $HOME
 COPY . $HOME
+
+USER root
+RUN \
+  rm -rf $HOME/docker \
+  && rm $HOME/requirements.txt
+
+USER jovyan
 
 ENV SHELL=/bin/bash
 
