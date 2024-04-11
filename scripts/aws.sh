@@ -29,7 +29,10 @@ composeUp () {
         VERSION="latest"
     fi
 
-    IMAGE_NAME="$IMG:$VERSION" GPU=$GPU docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" up &
+    IMAGE_NAME="$IMG:$VERSION" \
+        GPU=$GPU \
+        docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" up &
+    
     DOCKER_COMPOSE_PID=$!
     export DOCKER_COMPOSE_PID
 
@@ -52,6 +55,10 @@ composeDown() {
         VERSION="latest"
     fi
 
+    for dir in "data" "models" "notebooks"; do
+        chown -R $(id -u):$(id -g) "$PROJECT_DIR/$dir"
+    done
+
     IMAGE_NAME="$IMG:$VERSION" GPU=$GPU docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" down
 }
 
@@ -62,8 +69,10 @@ composeBuild () {
         exit 1
     fi
     echo Building Image Version: $VERSION ...
-    IMAGE_NAME="$IMG:$VERSION" GPU=$GPU docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" build \
-    && docker tag "$IMG:$VERSION" "$IMG:latest"
+    IMAGE_NAME="$IMG:$VERSION" \
+        GPU=$GPU \
+        docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" build \
+        && docker tag "$IMG:$VERSION" "$IMG:latest"
 }
 
 showImage () {
