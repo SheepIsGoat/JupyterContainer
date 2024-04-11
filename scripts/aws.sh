@@ -55,9 +55,8 @@ composeDown() {
         VERSION="latest"
     fi
 
-    for dir in "data" "models" "notebooks"; do
-        chown -R $(id -u):$(id -g) "$PROJECT_DIR/$dir"
-    done
+    # MY_UID=$(id -u) MY_GID=$(id -g) DIR=$dir docker-compose exec -u root asr_dev sh -c \
+    #     "for dir in data models notebooks; do chown -R $MY_UID:$MY_GID \"$HOME/$DIR\" done"
 
     IMAGE_NAME="$IMG:$VERSION" GPU=$GPU docker-compose -f "$PROJECT_DIR/docker/$GPU/docker-compose.yml" down
 }
